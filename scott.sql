@@ -465,6 +465,61 @@ FROM board_t;
 ALTER TABLE board_t
 MODIFY board_no NUMBER(10);
 
+SELECT deptno, job, AVG(NVL(sal,0)) "AVG"
+FROM emp
+GROUP BY deptno, job
+ORDER BY 1,2;
+
+SELECT deptno, AVG(NVL(sal,0))
+FROM emp
+WHERE deptno > 10
+GROUP BY deptno
+HAVING AVG(NVL(sal,0)) > 2000;
+
+SELECT deptno, NULL job, ROUND(AVG(sal),1)avg_sal, COUNT(*) cnt_emp
+FROM emp
+GROUP BY deptno
+UNION ALL
+SELECT deptno, job, ROUND(AVG(sal),1) avg_sal, COUNT(*) cnt_emp
+FROM emp
+GROUP BY deptno, job
+UNION ALL
+SELECT NULL deptno, NULL job, ROUND(AVG(sal),1) avg_sal, COUNT(*) cnt_emp
+FROM emp
+ORDER BY deptno, job;
+
+SELECT deptno, position, COUNT(*), SUM(pay)
+FROM professor
+GROUP BY position, ROLLUP(deptno);
+
+SELECT deptno, job, ROUND(AVG(sal),1), COUNT(*)
+FROM emp
+GROUP BY CUBE(deptno, job)
+ORDER BY deptno, job;
+
+SELECT e.empno, e.ename, d.dname
+FROM emp e, dept d
+WHERE e.deptno = d.deptno;
+
+SELECT s.name "学生", p.name　"教授"
+FROM student s
+JOIN professor p
+ON s.profno = p.profno;
+
+SELECT s.name, p.name
+FROM student s
+JOIN professor p
+ON s.profno = p.profno
+WHERE s.deptno1 = 101;
+
+SELECT COUNT(comm), SUM(comm), TRUNC(AVG(comm))
+FROM emp;
+
+
+
+
+
+
 
 
 
